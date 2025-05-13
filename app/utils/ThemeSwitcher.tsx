@@ -1,4 +1,5 @@
 'use client'
+
 import { useState, useEffect } from 'react'
 import { useTheme } from 'next-themes'
 import { BiMoon, BiSun } from 'react-icons/bi'
@@ -6,8 +7,12 @@ import { BiMoon, BiSun } from 'react-icons/bi'
 export const ThemeSwitcher = () => {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
-  console.log("Current theme:", theme)
-  useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    setMounted(true)
+    if (theme) {
+      console.log('Current theme:', theme)
+    }
+  }, [theme])
 
   if (!mounted) {
     return null

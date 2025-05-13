@@ -32,7 +32,7 @@ type Props = {
 const NavItems: FC<Props> = ({ activeItem, isMobile }) => {
   return (
     <>
-      <div className="hidden 800px:flex">
+      <div className="custom800:flex">
         {navItemsData &&
           navItemsData.map((i, index) => (
             <Link href={`${i.url}`} key={index} passHref>
@@ -51,7 +51,7 @@ const NavItems: FC<Props> = ({ activeItem, isMobile }) => {
       </div>
 
       {isMobile && (
-        <div className="800px:hidden mt-5">
+        <div className="custom800:hidden mt-5">
           <div className="w-full text-center py-6">
             {navItemsData &&
               navItemsData.map((i, index) => (
