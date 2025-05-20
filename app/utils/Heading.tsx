@@ -1,4 +1,5 @@
-import React,{FC} from "react";
+'use client'
+import React, { FC } from "react";
 
 interface HeadProps {
   title: string;
