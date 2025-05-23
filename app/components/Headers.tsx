@@ -147,7 +147,7 @@ const Headers: FC<Props> = ({ open, activeItem, setOpen, route, setRoute }) => {
           )}
         </>
       )}
-      Verification
+      
     </div>
   )
 }
