@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from 'react-icons/hi'
 
 import NavItems from '../utils/NavItems'
@@ -12,6 +12,9 @@ import Login from './Auth/Login'
 import { useSelector } from 'react-redux'
 import Image from 'next/image'
 import avatar from "../../public/assests/avatar.png"
+import { useSession } from 'next-auth/react'
+import { useSocialAuthMutation } from '@/redux/featuures/auth/authApi'
+import toast from 'react-hot-toast'
 
 type Props = {
   open: boolean
@@ -24,7 +27,30 @@ type Props = {
 const Headers: FC<Props> = ({ open, activeItem, setOpen, route, setRoute }) => {
   const [active, setActive] = useState(false)
   const [openSidebar, setOpenSidebar] = useState(false)
-  const {user} = useSelector((state:any) => state.auth)
+  const { user } = useSelector((state: any) => state.auth)
+  const [socialAuth,{isSuccess,data,error}] = useSocialAuthMutation()
+  
+console.log(data)
+  useEffect(() => {
+    if (!user) {
+      if (data) {
+        socialAuth({email:data?.user?.email, name:data?.user?.name, avatar:data?.user.image})
+      }
+    }
+    if (isSuccess) {
+      toast.success("Login Successfuly...")
+    }
+    if (error) {
+      if ('data' in error) {
+      const errorData = error as any
+      toast.error(errorData.data.message)
+      }
+    }
+
+  }, [data, user, error])
+  
+  
+
 
   if (typeof window !== 'undefined') {
     window.addEventListener('scroll', () => {
