@@ -24,27 +24,26 @@ const schema = Yup.object().shape({
   password: Yup.string().required('Please enter your password!').min(6)
 })
 
-const Login: FC<Props> = ({ setRoute, setOpen}) => {
+const Login: FC<Props> = ({ setRoute, setOpen }) => {
   const [show, setShow] = useState(false)
-  const [ login, { isSuccess, error }
-   ] = useLoginMutation();
+  const [login, { isSuccess, error }] = useLoginMutation()
 
   const formik = useFormik({
     initialValues: { email: '', password: '' },
     validationSchema: schema,
     onSubmit: async ({ email, password }) => {
-      await login({email,password})
+      await login({ email, password })
     }
   })
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Login Successfuly...")
+      toast.success('Login Successfuly...')
       setOpen(false)
     }
     if (error) {
-      if ("data" in error) {
-        const errorData = error as any 
+      if ('data' in error) {
+        const errorData = error as any
         toast.error(errorData.data.message)
       }
     }
@@ -98,14 +97,15 @@ const Login: FC<Props> = ({ setRoute, setOpen}) => {
               className='absolute bottom-3 right-2 z-1 cursor-pointer'
               size={20}
               onClick={() => setShow(true)}
-            />
-          ) : (
+              />
+            ) : (
             <AiOutlineEye
               className='absolute bottom-3 right-2 z-1 cursor-pointer'
               size={20}
               onClick={() => setShow(false)}
             />
-          )}
+            )
+          }
         </div>
         {errors.password && touched.password && (
           <span className='text-red-500 pt-2 block'>{errors.password}</span>

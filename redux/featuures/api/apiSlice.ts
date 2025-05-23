@@ -6,7 +6,15 @@ export const apiSlice = createApi({
     baseUrl: process.env.NEXT_PUBLIC_SERVER_URI,
 
   }),
-  endpoints: (builder) => ({}),
+  endpoints: (builder) => ({
+    refreshToken: builder.query({
+      query: (data) => ({
+        url: "refresh",
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+  }),
 })
 
-export const { } = apiSlice;
+export const {useRefreshTokenQuery } = apiSlice;
