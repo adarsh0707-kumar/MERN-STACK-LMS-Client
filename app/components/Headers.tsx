@@ -28,9 +28,11 @@ const Headers: FC<Props> = ({ open, activeItem, setOpen, route, setRoute }) => {
   const [active, setActive] = useState(false)
   const [openSidebar, setOpenSidebar] = useState(false)
   const { user } = useSelector((state: any) => state.auth)
-  const [socialAuth,{isSuccess,data,error}] = useSocialAuthMutation()
+  const [socialAuth, { isSuccess, data, error }] = useSocialAuthMutation()
+  const { data: session } = useSession()
+
   
-console.log(data)
+
   useEffect(() => {
     if (!user) {
       if (data) {
@@ -67,6 +69,8 @@ console.log(data)
       setOpenSidebar(false)
     }
   }
+console.log('user.avatar:', user)
+console.log('session.user.image:', session?.user)
 
   return (
     <div className='w-full relative'>
@@ -120,16 +124,19 @@ console.log(data)
             onClick={handleClose}
             id='screen'
           >
-            <div className='w-[70%] fixed z-[9999999] h-screen bg-white dark:bg-slate-900 dark:bg-opacity-90 top-0 right-0'>
-              <NavItems activeItem={activeItem} isMobile={true} />
+            <div
+              className='w-[70%] fixed z-[9999999] h-screen bg-white dark:bg-slate-900 dark:bg-opacity-90 top-0 right-0'>
+              <NavItems
+                activeItem={activeItem} isMobile={true}
+              />
 
               {
-                user ? (
+                user || session?.user ? (
                   <Link
                   href={"/profile"}>
                     <Image
-                      src={user.avatar ? user.avatar : avatar }
-                      alt={user.name}
+                      src={user?.avatar || session?.user?.image || avatar }
+                      alt={user?.name || session?.user?.name || 'User Avatar'}
                       className='w-[30px] h-[30px] rounded-full cursor-pointer'
                     />
                   </Link>

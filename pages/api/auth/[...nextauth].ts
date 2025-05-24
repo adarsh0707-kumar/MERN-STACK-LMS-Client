@@ -12,7 +12,15 @@ export const authOptions = {
       clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
     })
   ],
-  secret: process.env.SECRET
+  secret: process.env.SECRET,
+  callbacks: {
+    async session({ session, user }) {
+      if (user?.image) {
+        session.user.image = user.image;
+      }
+      return session;
+    },
+  },
 
 
 }
