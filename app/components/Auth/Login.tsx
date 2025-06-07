@@ -45,7 +45,10 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
     if (error) {
       if ('data' in error) {
         const errorData = error as any
-        toast.error(errorData.data.message)
+        toast.error(errorData.data.message || "Login failed")
+      }
+      else {
+        toast.error('Login failed. Please try again.');
       }
     }
   }, [isSuccess, error])
@@ -108,12 +111,17 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
             )
           }
         </div>
-        {errors.password && touched.password && (
+        {errors.password
+          && touched.password && (
           <span className='text-red-500 pt-2 block'>{errors.password}</span>
         )}
 
         <div className='w-full mt-5'>
-          <input type='submit' value='Login' className={`${styles.button}`} />
+          <input
+            type='submit'
+            value='Login'
+            className={`${styles.button}`}
+          />
         </div>
 
         <br />

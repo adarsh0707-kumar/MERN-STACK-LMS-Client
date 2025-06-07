@@ -1,3 +1,4 @@
+// redux/store.ts
 'use client'
 
 import { configureStore } from '@reduxjs/toolkit'
@@ -9,21 +10,32 @@ export const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authSlice
   },
-  devTools: false,
+  devTools: process.env.NODE_ENV !== 'production',
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(apiSlice.middleware)
 })
 
-// call the refresh token function on every page loas
+// Type declarations
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
 
-const initializeApp = async () => {
-  await store.dispatch(
-    apiSlice.endpoints.refreshToken.initiate({}, { forceRefetch: true })
-  )
-
-  await store.dispatch(
-    apiSlice.endpoints.loadUser.initiate({}, { forceRefetch: true })
-  )
+// Initialize app function
+export const initializeApp = async () => {
+  try {
+    await Promise.all([
+      store.dispatch(
+        apiSlice.endpoints.refreshToken.initiate({}, { forceRefetch: true })
+      ),
+      store.dispatch(
+        apiSlice.endpoints.loadUser.initiate({}, { forceRefetch: true })
+      )
+    ])
+  } catch (error) {
+    console.error('Initialization error:', error)
+  }
 }
 
-initializeApp()
+// Call initialization on client side only
+if (typeof window !== 'undefined') {
+  initializeApp()
+}

@@ -1,15 +1,24 @@
-import React from 'react'
-import { Provider} from 'react-redux'
+// app/Provider.tsx
+'use client'
+
+import { Provider } from 'react-redux'
+import { SessionProvider } from 'next-auth/react'
+import { ThemeProvider } from './utils/theme-provider'
 import { store } from '../redux/store'
 
-interface ProviderProps {
-  children: any;
-}
-
-export function Providers({ children }: ProviderProps) {
-  return <Provider
-    store={store}
-  >
-    {children}
-  </Provider>
+export function Providers ({ children }: { children: React.ReactNode }) {
+  return (
+    <Provider store={store}>
+      <SessionProvider>
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system' // Set explicit default
+          enableSystem={true} // Disable system preference to avoid flicker
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </SessionProvider>
+    </Provider>
+  )
 }
