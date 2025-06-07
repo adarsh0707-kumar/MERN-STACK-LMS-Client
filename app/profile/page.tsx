@@ -4,6 +4,7 @@ import React, { FC, useState } from 'react'
 import Protected from '../hooks/useProtected'
 import Heading from '../utils/Heading'
 import Headers from '../components/Headers'
+import Profile from '../components/Profile/Profile'
 
 type Props = {}
 
@@ -28,6 +29,8 @@ const page: FC<Props> = props => {
           setRoute={setRoute}
           route={route}
         />
+
+        <Profile />
       </Protected>
     </div>
   )

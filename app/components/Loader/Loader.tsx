@@ -1,12 +1,11 @@
-import React, { FC } from 'react'
-import "./Loader.css"
+import React from 'react'
+import "../Loader/Loader.css"
 
-type Props = {}
-
-const Loader:FC<Props> = (props) => {
+const Loader = () => {
   return (
     <div
       className="flex justify-center items-center h-screen">
+      
       <div className='loader'>
       
       </div>
